@@ -33,7 +33,7 @@ export default function InputChat({ onSend }: InputChatProps) {
     <form
       onSubmit={handleSubmit}
       className="w-full flex items-end gap-2 bg-white/80 rounded-xl shadow-lg p-2 border 
-          border-border focus-within:ring-2 focus-within:ring-primary/30 focus-within:border-[#e9e6e5]"
+          border-border focus-within:ring-4 focus-within:ring-[#d1d2cd] focus-within:border-[#d1d2cd]"
     >
       <Textarea
         ref={textareaRef}
