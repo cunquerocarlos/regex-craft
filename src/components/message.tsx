@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import MessageResponse from "./message-response";
 
 interface MessageProps {
   content: string;
@@ -15,14 +16,14 @@ export default function Message({ content, isUser }: MessageProps) {
     >
       <div
         className={cn(
-          "max-w-[75%] px-5 py-3 rounded-2xl text-base",
+          " px-5 py-3 rounded-2xl text-base overflow-x-auto",
           isUser
-            ? "bg-[#e6e4e0] text-black rounded-xl"
+            ? "bg-[#e6e4e0] text-black rounded-xl max-w-[75%]"
             : "text-black rounded-bl-md"
         )}
         style={{ wordBreak: "break-word", whiteSpace: "pre-wrap" }}
       >
-        {content}
+        <MessageResponse content={content} />
       </div>
     </div>
   );
