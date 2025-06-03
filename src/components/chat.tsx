@@ -26,8 +26,6 @@ export default function Chat() {
   }, [messages]);
 
   const handleSendMessage = async (message: string) => {
-    // Add user message
-
     if (message.trim() === "") return;
 
     console.log(message);
@@ -40,12 +38,18 @@ export default function Chat() {
       // Add an empty AI message that we'll update as we receive chunks
       setMessages((prev) => [...prev, { content: "", isUser: false }]);
 
+      // Get the last 8 messages from the conversation
+      const lastMessages = messages.slice(-8);
+
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message }),
+        body: JSON.stringify({
+          message,
+          history: lastMessages,
+        }),
       });
 
       if (!response.ok) {
@@ -92,6 +96,11 @@ export default function Chat() {
     }
   };
 
+  const handleClearChat = () => {
+    setMessages([]);
+    setIsConversationStarted(false);
+  };
+
   return (
     <div className="min-h-screen bg-[#f0eeed]">
       <div className=" max-w-2xl min-h-screen mx-auto">
@@ -107,7 +116,12 @@ export default function Chat() {
               ))}
               <div ref={messagesEndRef} />
             </div>
-            <InputChat fixed onSend={handleSendMessage} isLoading={isLoading} />
+            <InputChat
+              fixed
+              onSend={handleSendMessage}
+              isLoading={isLoading}
+              onClear={handleClearChat}
+            />
           </div>
         ) : (
           <div className="min-h-screen p-4 w-full flex flex-col items-center justify-center">
