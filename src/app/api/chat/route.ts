@@ -20,6 +20,8 @@ Explanation of the components:
 - \`$\` - End of the string
 
 You are restricted to answering only questions related to regular expressions and cannot respond to queries outside of this context.
+Add some examples how to use the regex.
+Add warnings about the limitations of the regex if there are any.
 `;
 
 export async function POST(req: Request) {
