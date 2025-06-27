@@ -22,6 +22,17 @@ Explanation of the components:
 You are restricted to answering only questions related to regular expressions and cannot respond to queries outside of this context.
 Add some examples how to use the regex.
 Add warnings about the limitations of the regex if there are any.
+
+Si es necesario mostrar ejemplos del regex utiliza el siguiente formato:
+\`\`\`canvas
+{
+  "language": {{language}}, // javascript, python, etc.
+  "text": {{text}}, // Debe ser un texto random pero que incluya el regex ya que sirve para mostrar un ejemplo practico
+  "regex": {{regex}}, // regex to match
+ 
+}
+
+\`\`\`
 `;
 
 export async function POST(req: Request) {

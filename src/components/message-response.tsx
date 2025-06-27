@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useCanvasStore } from "@/store/canvas";
 import "highlight.js/styles/github.css";
 import { Check, Copy } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
@@ -24,8 +25,22 @@ function extractTextFromChildren(children: any): any {
   return "";
 }
 
-export default function MessageResponse({ content }: { content: string }) {
+interface MessageResponseProps {
+  content: string;
+}
+
+export default function MessageResponse({ content }: MessageResponseProps) {
   const [copied, setCopied] = useState(false);
+
+  const { setContent: setCanvasContent } = useCanvasStore();
+
+  useEffect(() => {
+    // Check if content contains a canvas code block
+    const canvasMatch = content.match(/```canvas\n([\s\S]*?)```/);
+    if (canvasMatch) {
+      setCanvasContent(canvasMatch[1]);
+    }
+  }, [content, setCanvasContent]);
 
   const handleCopy = async (code: string) => {
     try {
@@ -45,6 +60,11 @@ export default function MessageResponse({ content }: { content: string }) {
         code({ className, children, ...props }) {
           const isBlockCode = className !== undefined;
           const codeString = extractTextFromChildren(children);
+          const isCanvas = className?.includes("language-canvas");
+
+          if (isCanvas) {
+            return null; // Don't render canvas blocks in the chat
+          }
 
           return (
             <div
